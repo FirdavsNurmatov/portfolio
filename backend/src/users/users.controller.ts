@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseGuards,
-  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -32,7 +31,6 @@ export class UsersController {
 
   @Get('me')
   getMe(@CurrentUser() user: any) {
-    if (!user) throw new NotFoundException();
     return {
       email: user?.email,
       firstName: user?.firstName,

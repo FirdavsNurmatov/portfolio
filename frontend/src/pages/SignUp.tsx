@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { GoogleIcon } from '../components/Auth/CustomIcons';
+// import { GoogleIcon } from '../components/Auth/CustomIcons';
 import { instance } from '../config/axios-instance';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -114,16 +114,16 @@ export default function SignUp() {
             await instance.post('/auth/register', { name, email, password });
 
             // backend cookie bilan access token yuboradi
-            window.location.href = '/signin'; // registratsiyadan keyin signin sahifaga
+            window.location.href = '/'; // registratsiyadan keyin signin sahifaga
         } catch (err: any) {
             console.error(err.response?.data || err.message);
             alert(err.response?.data?.message || 'Registration failed');
         }
     };
 
-    const handleGoogleSignUp = async () => {
-        window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
-    };
+    // const handleGoogleSignUp = async () => {
+    //     window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
+    // };
 
     return (
         <>
@@ -203,14 +203,14 @@ export default function SignUp() {
                         <Typography sx={{ color: 'text.secondary' }}>or</Typography>
                     </Divider>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <Button
+                        {/* <Button
                             fullWidth
                             variant="outlined"
                             onClick={() => handleGoogleSignUp()}
                             startIcon={<GoogleIcon />}
                         >
                             Sign up with Google
-                        </Button>
+                        </Button> */}
                         <Typography sx={{ textAlign: 'center' }}>
                             Already have an account?{' '}
                             <Link

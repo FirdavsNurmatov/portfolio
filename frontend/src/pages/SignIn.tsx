@@ -11,8 +11,9 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from '../components/Auth/ForgotPassword';
-import { GoogleIcon } from '../components/Auth/CustomIcons';
+// import { GoogleIcon } from '../components/Auth/CustomIcons';
 import { instance } from '../config/axios-instance';
+import Cookies from 'js-cookie';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -81,20 +82,23 @@ export default function SignIn() {
         const password = data.get('password') as string;
 
         try {
-            localStorage.clear()
-            await instance.post('/auth/login', { email, password });
+            localStorage.removeItem('user')
+            const res = await instance.post('/auth/login', { email, password });
+
+            Cookies.set('accessToken', res.data?.accessToken)
+            localStorage.setItem('user', JSON.stringify(res.data))
 
             // backend cookie bilan access token yuboradi, shuning uchun boshqa requestlar avtomatik ishlaydi
-            window.location.href = '/'; // logindan keyin home page
+            window.location.href = '/home'; // logindan keyin home page
         } catch (err: any) {
             console.error(err.response?.data || err.message);
             alert(err.response?.data?.message || 'Login failed');
         }
     };
 
-    const handleGoogleLogin = async () => {
-        window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
-    }
+    // const handleGoogleLogin = async () => {
+    //     window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
+    // }
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
@@ -204,14 +208,14 @@ export default function SignIn() {
                     </Box>
                     <Divider>or</Divider>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <Button
+                        {/* <Button
                             fullWidth
                             variant="outlined"
                             onClick={() => handleGoogleLogin()}
                             startIcon={<GoogleIcon />}
                         >
                             Sign in with Google
-                        </Button>
+                        </Button> */}
                         <Typography sx={{ textAlign: 'center' }}>
                             Don&apos;t have an account?{' '}
                             <Link

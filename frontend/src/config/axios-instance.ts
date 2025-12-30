@@ -7,17 +7,33 @@ export const instance = axios.create({
   withCredentials: true, // cookie ishlashi uchun
 });
 
-const refreshAuthLogic = async () => {
+instance.interceptors.request.use(async (config) => {
+  if (config.url !== "/auth/refresh") {
+    const token = Cookies.get("accessToken");
+
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
+const refreshAuthLogic = async (failedRequest: any) => {
   try {
-    await instance.post("/auth/refresh", null, {
+    const res = await instance.post("/auth/refresh", null, {
       withCredentials: true,
     });
+
+    const token = res.data.accessToken;
+    Cookies.set("accessToken", token);
+
+    failedRequest.response.config.headers["Authorizaiton"] = `Bearer ${token}`;
 
     return await Promise.resolve();
   } catch (err: any) {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
-    localStorage.clear();
+    localStorage.removeItem("user");
     window.location.href = "/";
     return Promise.reject(err);
   }

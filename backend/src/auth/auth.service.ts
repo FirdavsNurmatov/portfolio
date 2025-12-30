@@ -84,18 +84,19 @@ export class AuthService {
         { refreshToken: await bcrypt.hash(refreshToken.refresh_token, 10) },
       );
 
-      response.cookie('accessToken', accessToken.access_token, {
-        httpOnly: true,
-        secure: this.configService.get('environment') === 'production',
-        sameSite: 'lax', // XSRF hujumlardan himoya
-        expires: accessTokenExpireTime,
-      });
       response.cookie('refreshToken', refreshToken.refresh_token, {
         httpOnly: true,
         secure: this.configService.get('environment') === 'production',
         sameSite: 'lax', // XSRF hujumlardan himoya
         expires: refreshTokenExpireTime,
       });
+
+      return {
+        id: user.id,
+        email: user.email,
+        accessToken: accessToken.access_token,
+        accessTokenExpireTime: accessToken.access_token_expire_time,
+      };
     } catch (error) {
       throw new BadRequestException('Something gone wrong');
     }
@@ -131,19 +132,15 @@ export class AuthService {
   }
 
   async verifyUser(email: string, password: string) {
-    try {
-      const user = await this.userRepository.findOne({ where: { email } });
-      if (!user) throw new UnauthorizedException('Invalid credentials');
-      else if (!user.password)
-        throw new UnauthorizedException('Login via Google, please!');
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) throw new UnauthorizedException('Invalid credentials');
+    else if (!user.password)
+      throw new UnauthorizedException('Login via Google, please!');
 
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid) throw new UnauthorizedException('Invalid credentials');
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new UnauthorizedException('Invalid credentials');
 
-      return user;
-    } catch (error) {
-      throw new UnauthorizedException(error.messsage);
-    }
+    return user;
   }
 
   async verifyUserRefreshToken(refreshToken: string, userId: string) {
