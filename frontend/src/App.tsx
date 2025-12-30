@@ -25,6 +25,8 @@ export default function App() {
     const fetchUser = async () => {
       try {
         const res = await instance.get('/users/me')
+        console.log(res);
+
         if (res.data?.email) {
           setUser(res.data)
         }
@@ -32,7 +34,9 @@ export default function App() {
           setUser(null)
           setLoading(false)
         }
-      } catch {
+      } catch (error) {
+        console.log(error);
+
         setUser(null)
         setLoading(false)
       }
