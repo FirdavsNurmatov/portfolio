@@ -28,7 +28,6 @@ export default function App() {
         setUser(res.data)
       } catch {
         setUser(null)
-      } finally {
         setLoading(false)
       }
     }
