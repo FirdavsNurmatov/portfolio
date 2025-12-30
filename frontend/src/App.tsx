@@ -25,7 +25,13 @@ export default function App() {
     const fetchUser = async () => {
       try {
         const res = await instance.get('/users/me')
-        setUser(res.data)
+        if (res.data?.email) {
+          setUser(res.data)
+        }
+        else {
+          setUser(null)
+          setLoading(false)
+        }
       } catch {
         setUser(null)
         setLoading(false)
@@ -45,7 +51,7 @@ export default function App() {
 
           {/* Public */}
           <Route
-            path="/"
+            index
             element={!user ? <SignIn /> : <Navigate to="/home" replace />}
           />
           <Route
