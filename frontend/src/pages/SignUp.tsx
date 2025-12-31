@@ -12,6 +12,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 // import { GoogleIcon } from '../components/Auth/CustomIcons';
 import { instance } from '../config/axios-instance';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -62,6 +63,7 @@ export default function SignUp() {
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [nameError, setNameError] = React.useState(false);
     const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+    const navigate = useNavigate()
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
@@ -112,9 +114,7 @@ export default function SignUp() {
 
         try {
             await instance.post('/auth/register', { name, email, password });
-
-            // backend cookie bilan access token yuboradi
-            window.location.href = '/'; // registratsiyadan keyin signin sahifaga
+            navigate('/', { replace: true })
         } catch (err: any) {
             console.error(err.response?.data || err.message);
             alert(err.response?.data?.message || 'Registration failed');
@@ -122,7 +122,7 @@ export default function SignUp() {
     };
 
     // const handleGoogleSignUp = async () => {
-    //     window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
+    //     navigate(`${import.meta.env.VITE_BASE_URL}/auth/google`);
     // };
 
     return (
@@ -194,7 +194,7 @@ export default function SignUp() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            // onClick={validateInputs}
+                        // onClick={validateInputs}
                         >
                             Sign up
                         </Button>

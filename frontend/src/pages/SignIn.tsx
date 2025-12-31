@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
+import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -14,6 +15,7 @@ import ForgotPassword from '../components/Auth/ForgotPassword';
 // import { GoogleIcon } from '../components/Auth/CustomIcons';
 import { instance } from '../config/axios-instance';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -63,6 +65,7 @@ export default function SignIn() {
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
     // const handleClickOpen = () => {
     //     setOpen(true);
@@ -88,8 +91,7 @@ export default function SignIn() {
             Cookies.set('accessToken', res.data?.accessToken)
             localStorage.setItem('user', JSON.stringify(res.data))
 
-            // backend cookie bilan access token yuboradi, shuning uchun boshqa requestlar avtomatik ishlaydi
-            window.location.href = '/home'; // logindan keyin home page
+            navigate('/home', { replace: true })
         } catch (err: any) {
             console.error(err.response?.data || err.message);
             alert(err.response?.data?.message);
@@ -97,7 +99,7 @@ export default function SignIn() {
     };
 
     // const handleGoogleLogin = async () => {
-    //     window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
+    //     navigate(`${import.meta.env.VITE_BASE_URL}/auth/google`);
     // }
 
     const validateInputs = () => {
@@ -192,7 +194,7 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            // onClick={validateInputs}
+                        // onClick={validateInputs}
                         >
                             Sign in
                         </Button>
@@ -218,11 +220,7 @@ export default function SignIn() {
                         </Button> */}
                         <Typography sx={{ textAlign: 'center' }}>
                             Don&apos;t have an account?{' '}
-                            <Link
-                                href="/signup"
-                                variant="body2"
-                                sx={{ alignSelf: 'center' }}
-                            >
+                            <Link component={RouterLink} to="/signup" variant="body2" sx={{ alignSelf: 'center' }}>
                                 Sign up
                             </Link>
                         </Typography>
