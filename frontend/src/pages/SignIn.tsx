@@ -92,7 +92,7 @@ export default function SignIn() {
             window.location.href = '/home'; // logindan keyin home page
         } catch (err: any) {
             console.error(err.response?.data || err.message);
-            alert(err.response?.data?.message || 'Login failed');
+            alert(err.response?.data?.message);
         }
     };
 
@@ -192,7 +192,7 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            onClick={validateInputs}
+                            // onClick={validateInputs}
                         >
                             Sign in
                         </Button>

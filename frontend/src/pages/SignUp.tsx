@@ -194,7 +194,7 @@ export default function SignUp() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            onClick={validateInputs}
+                            // onClick={validateInputs}
                         >
                             Sign up
                         </Button>

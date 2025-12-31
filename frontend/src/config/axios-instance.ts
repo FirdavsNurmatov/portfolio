@@ -27,7 +27,7 @@ const refreshAuthLogic = async (failedRequest: any) => {
     const token = res.data.accessToken;
     Cookies.set("accessToken", token);
 
-    failedRequest.response.config.headers["Authorizaiton"] = `Bearer ${token}`;
+    failedRequest.response.config.headers["Authorization"] = `Bearer ${token}`;
 
     return await Promise.resolve();
   } catch (err: any) {

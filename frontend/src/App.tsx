@@ -1,6 +1,6 @@
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { lightTheme, darkTheme } from './theme/theme'
 import Home from './pages/Home'
 import SignIn from './pages/SignIn'
@@ -21,58 +21,26 @@ export default function App() {
     <ThemeProvider theme={mode === 'light' ? lightTheme : darkTheme}>
       <CssBaseline enableColorScheme />
 
-      <Router>
-        <Routes>
+      <Routes>
 
-          {/* Public */}
-          <Route
-            index={true}
-            element={<SignIn />}
-          />
-          <Route
-            path="/signup"
-            element={<SignUp />}
-          />
+        {/* Public */}
+        <Route
+          index
+          element={<SignIn />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUp />}
+        />
 
-          {/* Protected */}
-          <Route
-            element={
-              <Layout mode={mode} onToggleTheme={toggleTheme} />
-            }
-          >
-            <Route path="/home" element={
-              <TokenChecker>
-                <Home />
-              </TokenChecker>
-            } />
-          </Route>
+        {/* Protected */}
+        <Route element={<Layout mode={mode} onToggleTheme={toggleTheme} />}>
+          <Route path="/home" element={<TokenChecker><Home /></TokenChecker>} />
+          <Route path="/blog" element={<TokenChecker><Blog /></TokenChecker>} />
+          <Route path="/news/:id" element={<TokenChecker><NewsDetail /></TokenChecker>} />
+        </Route>
 
-          <Route
-            element={
-              <Layout mode={mode} onToggleTheme={toggleTheme} />
-            }
-          >
-            <Route path="/blog" element={
-              <TokenChecker>
-                <Blog />
-              </TokenChecker>
-            } />
-          </Route>
-
-          <Route
-            element={
-              <Layout mode={mode} onToggleTheme={toggleTheme} />
-            }
-          >
-            <Route path="/news/:id" element={
-              <TokenChecker>
-                <NewsDetail />
-              </TokenChecker>
-            } />
-          </Route>
-
-        </Routes>
-      </Router>
+      </Routes>
     </ThemeProvider>
   )
 }
