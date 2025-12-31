@@ -11,8 +11,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       // 'http://localhost:5173',
-      'http://localhost:3000',
-      'http://3.76.203.231:3000',
+      // 'http://localhost:3000',
+      'http://3.76.203.231:3001',
     ], // React app domenini yozing
     credentials: true,
   });
