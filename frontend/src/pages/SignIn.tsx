@@ -65,6 +65,7 @@ export default function SignIn() {
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const [apiError, setApiError] = React.useState('');
     const navigate = useNavigate();
 
     // const handleClickOpen = () => {
@@ -93,8 +94,9 @@ export default function SignIn() {
 
             navigate('/home', { replace: true })
         } catch (err: any) {
-            console.error(err.response?.data || err?.message);
-            alert(err.response?.data?.message || 'Login error');
+            // console.error(err.response?.data || err?.message);
+            // alert(err.response?.data?.message || 'Login error');
+            setApiError(err.response?.data?.message || 'Login error, try again')
         }
     };
 
@@ -198,6 +200,11 @@ export default function SignIn() {
                         >
                             Sign in
                         </Button>
+                        {apiError &&
+                            <Typography sx={{ textAlign: 'center', color: 'red' }}>
+                                {apiError}
+                            </Typography>
+                        }
                         {/* <Link
                             component="button"
                             type="button"
