@@ -11,10 +11,17 @@ import NewsDetail from './pages/NewsDetail'
 import TokenChecker from './components/TokenChecker'
 
 export default function App() {
-  const [mode, setMode] = useState<'light' | 'dark'>('light')
+  const [mode, setMode] = useState<'light' | 'dark'>(() => {
+    const savedMode = localStorage.getItem('theme')
+    return savedMode === 'dark' ? 'dark' : 'light'
+  })
 
   const toggleTheme = () => {
-    setMode(prev => (prev === 'light' ? 'dark' : 'light'))
+    setMode(prev => {
+      const nextMode = prev === 'light' ? 'dark' : 'light'
+      localStorage.setItem('theme', nextMode)
+      return nextMode
+    })
   }
 
   return (

@@ -93,8 +93,8 @@ export default function SignIn() {
 
             navigate('/home', { replace: true })
         } catch (err: any) {
-            console.error(err.response?.data || err.message);
-            alert(err.response?.data?.message);
+            console.error(err.response?.data || err?.message);
+            alert(err.response?.data?.message || 'Login error');
         }
     };
 
