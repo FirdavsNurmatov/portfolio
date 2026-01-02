@@ -32,7 +32,7 @@ const Footer = () => {
                 {/* Contact Emails */}
                 <Stack spacing={0.5} alignItems={{ xs: "center", sm: "flex-end" }}>
                     <Typography variant="body2" color="text.secondary">
-                        Email: <Link href="mailto:ruziyev.youngla@gmail.com">ruziyevjamshid@gmail.com</Link>
+                        Email: <Link href="mailto:ruziyev.youngla@gmail.com">ruziyev.youngla@gmail.com</Link>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         Email: <Link href="mailto:nurmatovfirdavs96@gmail.com">nurmatovfirdavs96@gmail.com</Link>
